@@ -6,12 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const targetDiv = document.getElementById("dog-image-container");
   const targetUl = document.getElementById("dog-breeds");
   const select = document.getElementById("breed-dropdown");
+  let allBreedsObject;
 
   fetch(imgUrl)
     .then((response) => response.json())
     .then((json) => addImageToDom(json));
 
- let allBreedsObject;
+ 
   fetch(breedUrl)
     .then((response) => response.json())
     .then((json) => {
@@ -22,7 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
   select.addEventListener("change", function selectDogsByLetter() {
     targetUl.innerHTML = "";
     Object.keys(allBreedsObject.message)
-      .filter((breed) => breed[0] == this.value)
+      .filter((breed) =>{
+        return this.value ? (breed[0] == this.value) : true //if this value is the placeholder option return all dogs
+      })
       .forEach(createDogLi);
   });
 
@@ -43,9 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function addImageToDom({ message: imgArray } = {}) {
-    imgArray.forEach((element) => {
+    imgArray.forEach((url) => {
       let img = document.createElement("img");
-      img.src = element;
+      img.src = url;
       img.alt = "a dog image";
       img.width = 300;
       targetDiv.appendChild(img);
