@@ -28,26 +28,34 @@ function fetchContent() {
   function renderBreeds(json) {
 
     const main = document.querySelector('#dog-breeds')
+    main.innerHTML = ""
     let letter = document.querySelector('#breed-dropdown').value
-    
+
     for (const [key, value] of Object.entries(json["message"])) {
+        
         if(key[0] != letter){
-            return
+            continue
         }
+
+        
    
-        const h2 = document.createElement('h2')
-        h2.innerHTML = `<li><h1>${key}</h1><ul>`
+        const h2 = document.createElement('h1')
+        h2.innerHTML = `<li>${key}<ul>`
+
         
 
         value.forEach(val => {
             h2.innerHTML += `<li>${val}</li>`
 
 
-
         })
 
         h2.innerHTML += `</ui></li>`
         main.appendChild(h2)
+        h2.addEventListener("onClick", () => {
+            h2.style.color = "magenta";
+            console.log("hey")
+        })
 
 
         
@@ -72,9 +80,14 @@ function fetchContent() {
   }
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetchContent()
+    
     fetchBreed()
     changeColor()
+    fetchContent()
+    document.querySelector('#breed-dropdown').addEventListener("change", () => {
+        console.log( document.querySelector('#breed-dropdown').value)
+        fetchBreed()
+    });
    
   })
 
