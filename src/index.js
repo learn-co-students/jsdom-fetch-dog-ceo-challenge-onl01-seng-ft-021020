@@ -21,16 +21,18 @@ function getDogImages() {
   }
   
   function getDogBreeds() {
+    console.log("getting dog breeds")
     return fetch(breedUrl).then(resp => resp.json()).then(json => createBreedsArray(json));
   }
   
   function createBreedsArray(json) {
-    allBreeds = json.message;
+    allBreeds = Object.keys(json.message);
     listBreeds(allBreeds);
   }
   
   function listBreeds(breeds) {
     let dogBreedList = document.getElementById("dog-breeds");
+    debugger
     breeds.forEach(breed => {
       let newLiElem = document.createElement('li');
       newLiElem.textContent = breed;
